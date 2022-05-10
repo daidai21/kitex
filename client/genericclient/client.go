@@ -81,10 +81,12 @@ func (m *methodInfo) OneWay() bool {
 type Client interface {
 	generic.Closer
 
+	// 泛化调用
 	// GenericCall generic call
 	GenericCall(ctx context.Context, method string, request interface{}, callOptions ...callopt.Option) (response interface{}, err error)
 }
 
+// 泛化调用的客户端
 type genericServiceClient struct {
 	kClient client.Client
 	g       generic.Generic
@@ -95,7 +97,7 @@ func (gc *genericServiceClient) GenericCall(ctx context.Context, method string, 
 	var _args generic.Args
 	_args.Method = method
 	_args.Request = request
-	mt, err := gc.g.GetMethod(request, method)
+	mt, err := gc.g.GetMethod(request, method) // 方法的基本信息
 	if err != nil {
 		return nil, err
 	}

@@ -36,6 +36,7 @@ type writerOption struct {
 
 type writer func(ctx context.Context, val interface{}, out thrift.TProtocol, t *descriptor.TypeDescriptor, opt *writerOption) error
 
+// 获取sampled的类型
 func typeOf(sample interface{}, t *descriptor.TypeDescriptor, opt *writerOption) (descriptor.Type, writer, error) {
 	tt := t.Type
 	switch sample.(type) {
@@ -316,7 +317,6 @@ func writeFloat64(ctx context.Context, val interface{}, out thrift.TProtocol, t 
 }
 
 func writeString(ctx context.Context, val interface{}, out thrift.TProtocol, t *descriptor.TypeDescriptor, opt *writerOption) error {
-	if
 	return out.WriteString(val.(string))
 }
 

@@ -61,6 +61,7 @@ func (c *mapThriftCodec) update() {
 	}
 }
 
+// 编码
 func (c *mapThriftCodec) Marshal(ctx context.Context, msg remote.Message, out remote.ByteBuffer) error {
 	method := msg.RPCInfo().Invocation().MethodName()
 	if method == "" {
@@ -81,6 +82,7 @@ func (c *mapThriftCodec) Marshal(ctx context.Context, msg remote.Message, out re
 	return c.codec.Marshal(ctx, msg, out)
 }
 
+// 解码
 func (c *mapThriftCodec) Unmarshal(ctx context.Context, msg remote.Message, in remote.ByteBuffer) error {
 	if err := codec.NewDataIfNeeded(serviceinfo.GenericMethod, msg); err != nil {
 		return err

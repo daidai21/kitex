@@ -13,8 +13,11 @@
 * `pkg`  外部应用程序可以使用的库代码
     * `acl`  访问控制列表ACL（Access Control List）
     * TODO
-    * `remote`  .
-        * TODO:核心
+    * `generic` 泛化调用相关的
+        * 支持二进制、http、map、json映射泛化调用，对应文件 binarythrift_codec.go httpthrift_codec.go jsonthrift_codec.go mapthrift_codec.go
+
+        * `remote`  .
+            * TODO:核心
 * `server`  服务端二方包
     * `genericserver`  泛化服务
         * TODO

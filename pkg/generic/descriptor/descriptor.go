@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+// 用golang描述idl信息
 // Package descriptor the idl descriptor for describe the idls with golang
 package descriptor
 

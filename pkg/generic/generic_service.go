@@ -127,7 +127,7 @@ func (g *Args) Read(ctx context.Context, method string, in thrift.TProtocol) err
 // Result generic response
 type Result struct {
 	Success interface{}
-	inner   interface{}
+	inner   interface{} // 内部
 }
 
 var (
