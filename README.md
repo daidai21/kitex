@@ -1,118 +1,145 @@
-# CloudWeGo-Kitex
 
-English | [中文](README_cn.md)
 
-[![Release](https://img.shields.io/github/v/release/cloudwego/kitex)](https://github.com/cloudwego/kitex/releases)
-[![WebSite](https://img.shields.io/website?up_message=cloudwego&url=https%3A%2F%2Fwww.cloudwego.io%2F)](https://www.cloudwego.io/)
-[![License](https://img.shields.io/github/license/cloudwego/kitex)](https://github.com/cloudwego/kitex/blob/main/LICENSE)
-[![Go Report Card](https://goreportcard.com/badge/github.com/cloudwego/kitex)](https://goreportcard.com/report/github.com/cloudwego/kitex)
-[![OpenIssue](https://img.shields.io/github/issues/cloudwego/kitex)](https://github.com/cloudwego/kitex/issues)
-[![ClosedIssue](https://img.shields.io/github/issues-closed/cloudwego/kitex)](https://github.com/cloudwego/kitex/issues?q=is%3Aissue+is%3Aclosed)
-![Stars](https://img.shields.io/github/stars/cloudwego/kitex)
-![Forks](https://img.shields.io/github/forks/cloudwego/kitex)
+`TODO:UNKNOWN` 待理解的标记
 
-Kitex [kaɪt'eks] is a **high-performance** and **strong-extensibility** Golang RPC framework that helps developers build microservices. If the performance and extensibility are the main concerns when you develop microservices, Kitex can be a good choice.
+### 目录
 
-## Basic Features
+* `client`  客户端二方包
+    * TODO
+    * `callopt`  调用的配置选项
+    * `genericclient`  泛化调用的客户端
+* `internal`  私有的应用程序代码库
+    * TODO
+* `pkg`  外部应用程序可以使用的库代码
+    * `acl`  访问控制列表ACL（Access Control List）
+    * TODO
+    * `remote`  .
+        * TODO:核心
+* `server`  服务端二方包
+    * `genericserver`  泛化服务
+        * TODO
+    * `invoke`  .
+        * TODO
+    * TODO
+* `tool`
+    * `cmd`  命令行工具那块的
+    * `internal`  私有的应用程序代码库
+        * TODO
+* `transport`  协议转换那块的
 
-- **High Performance**
+===
 
-Kitex integrates [Netpoll](https://github.com/cloudwego/netpoll), a high-performance network library, which offers significant performance advantage over [go net](https://pkg.go.dev/net).
 
-- **Extensibility**
+```sh
+$ find . | grep -v "\.[go|proto|iml|xml|yml|sum]" | grep -v "licenses" | grep -v "LICENSE" | grep -v "images" | grep -v "NOTICE"
 
-Kitex provides many interfaces with default implementation for users to customize. You can extend or inject them into Kitex to fulfill your needs (please refer to the framework extension section below).
 
-- **Multi-message Protocol**
 
-Kitex is designed to be extensible to support multiple RPC messaging protocols. The initial release contains support for **Thrift**, **Kitex Protobuf** and **gRPC**, in which Kitex Protobuf is a Kitex custom Protobuf messaging protocol with a protocol format similar to Thrift. Kitex also supports developers extending their own messaging protocols.
+.
+./transport
+./internal
+./internal/mocks
+./internal/mocks/limiter
+./internal/mocks/thrift
+./internal/mocks/remote
+./internal/configutil
+./internal/test
+./internal/wpool
+./internal/server
+./internal/client
+./internal/stats
+./server
+./server/invoke
+./server/genericserver
+./client
+./client/callopt
+./client/genericclient
+./CREDITS
+./tool
+./tool/cmd
+./tool/cmd/kitex
+./tool/internal
+./tool/internal/pkg
+./tool/internal/pkg/util
+./tool/internal/pkg/pluginmode
+./tool/internal/pkg/pluginmode/thriftgo
+./tool/internal/pkg/pluginmode/protoc
+./tool/internal/pkg/tpl
+./tool/internal/pkg/generator
+./tool/internal/pkg/log
+./pkg
+./pkg/rpcinfo
+./pkg/rpcinfo/remoteinfo
+./pkg/loadbalance
+./pkg/loadbalance/lbcache
+./pkg/proxy
+./pkg/retry
+./pkg/connpool
+./pkg/limit
+./pkg/gofunc
+./pkg/limiter
+./pkg/rpctimeout
+./pkg/discovery
+./pkg/utils
+./pkg/protocol
+./pkg/protocol/bprotoc
+./pkg/protocol/bthrift
+./pkg/streaming
+./pkg/serviceinfo
+./pkg/transmeta
+./pkg/http
+./pkg/endpoint
+./pkg/kerrors
+./pkg/registry
+./pkg/generic
+./pkg/generic/binary_test
+./pkg/generic/map_test
+./pkg/generic/map_test/idl
+./pkg/generic/map_test/conf
+./pkg/generic/json_test
+./pkg/generic/json_test/idl
+./pkg/generic/json_test/conf
+./pkg/generic/thrift
+./pkg/generic/descriptor
+./pkg/generic/http_test
+./pkg/generic/http_test/idl
+./pkg/generic/http_test/conf
+./pkg/klog
+./pkg/exception
+./pkg/event
+./pkg/consts
+./pkg/warmup
+./pkg/acl
+./pkg/stats
+./pkg/circuitbreak
+./pkg/remote
+./pkg/remote/remotesvr
+./pkg/remote/connpool
+./pkg/remote/codec
+./pkg/remote/codec/thrift
+./pkg/remote/codec/perrors
+./pkg/remote/codec/protobuf
+./pkg/remote/remotecli
+./pkg/remote/transmeta
+./pkg/remote/bound
+./pkg/remote/trans
+./pkg/remote/trans/netpoll
+./pkg/remote/trans/invoke
+./pkg/remote/trans/netpollmux
+./pkg/remote/trans/nphttp2
+./pkg/remote/trans/nphttp2/grpc
+./pkg/remote/trans/nphttp2/grpc/syscall
+./pkg/remote/trans/nphttp2/grpc/testutils
+./pkg/remote/trans/nphttp2/grpc/testutils/leakcheck
+./pkg/remote/trans/nphttp2/status
+./pkg/remote/trans/nphttp2/codes
+./pkg/remote/trans/nphttp2/metadata
+./pkg/remote/trans/detection
+./pkg/diagnosis
+```
 
-- **Multi-transport Protocol**
+```shell
+$ find . | grep "\.go" | grep -v "test" | xargs wc -l
+   41769 total
 
-For service governance, Kitex supports **TTHeader** and **HTTP2**. TTHeader can be used in conjunction with Thrift and Kitex Protobuf; HTTP2 is currently mainly used with the gRPC protocol, and it will support Thrift in the future.
-
-- **Multi-message Type**
-
-Kitex supports **PingPong**, **One-way**, and **Bidirectional Streaming**. Among them, One-way currently only supports Thrift protocol, two-way Streaming only supports gRPC, and Kitex will support Thrift's two-way Streaming in the future.
-
-- **Service Governance**
-
-Kitex integrates service governance modules such as service registry, service discovery, load balancing, circuit breaker, rate limiting, retry, monitoring, tracing, logging, diagnosis, etc. Most of these have been provided with default extensions, and users can choose to integrate.
-
-- **Code Generation**
-
-Kitex has built-in code generation tools that support generating **Thrift**, **Protobuf**, and scaffold code.
-
-## Documentation
-
-- [**Getting Started**](https://www.cloudwego.io/docs/kitex/getting-started/)
-
-- **User Guide**
-
-  - **Basic Features**
-  
-    Including Message Type, Supported Protocols, Directly Invoke, Connection Pool, Timeout Control, Request Retry, LoadBalancer, Circuit Breaker, Rate Limiting, Instrumentation Control, Logging and HttpResolver.[[more]](https://www.cloudwego.io/docs/tutorials/basic-feature/)
-    
-  - **Governance Features**
-  
-    Supporting Service Discovery, Monitoring, Tracing and Customized Access Control.[[more]](https://www.cloudwego.io/docs/kitex/tutorials/service-governance/)
-    
-  - **Advanced Features**
-  
-    Supporting Generic Call and Server SDK Mode.[[more]](https://www.cloudwego.io/docs/kitex/tutorials/advanced-feature/)
-    
-  - **Code Generation**
-  
-    Including Code Generation Tool and Combined Service.[[more]](https://www.cloudwego.io/docs/kitex/tutorials/code-gen/)
-    
-  - **Framework Extension**
-  
-    Providing Middleware Extensions, Suite Extensions, Service Registry, Service Discovery, Customize LoadBalancer, Monitoring, Logging, Codec, Transport Module, Transport Pipeline, Metadata Transparent Transmission, Diagnosis Module.[[more]](https://www.cloudwego.io/docs/kitex/tutorials/framework-exten/)
-    
-- **Reference**
-
-  - For Transport Protocol, Exception Instruction and Version Specification, please refer to [doc](https://www.cloudwego.io/docs/kitex/reference/)
-    
-- **FAQ**
-
-## Performance
-
-Performance benchmark can only provide limited reference. In production, there are many factors can affect actual performance.
-
-We provide the [kitex-benchmark](https://github.com/cloudwego/kitex-benchmark) project to track and compare the performance of Kitex and other frameworks under different conditions for reference.
-
-## Related Projects
-
-- [Netpoll](https://github.com/cloudwego/netpoll): A high-performance network library.
-- [kitex-contrib](https://github.com/kitex-contrib): A partial extension library of Kitex, which users can integrate into Kitex through options according to their needs.
-- [Example](https://github.com/cloudwego/kitex-examples): Use examples of Kitex.
-
-## Blogs
-
-- [Performance Optimization on Kitex](https://www.cloudwego.io/blog/2021/09/23/performance-optimization-on-kitex/)
-- [ByteDance Practice on Go Network Library](https://www.cloudwego.io/blog/2021/10/09/bytedance-practices-on-go-network-library/)
-- [Getting Started With Kitex's Practice: Performance Testing Guide](https://www.cloudwego.io/blog/2021/11/24/getting-started-with-kitexs-practice-performance-testing-guide/)
-
-## Contributing
-
-[Contributing](https://github.com/cloudwego/kitex/blob/develop/CONTRIBUTING.md).
-
-## License
-
-Kitex is distributed under the [Apache License, version 2.0](https://github.com/cloudwego/kitex/blob/develop/LICENSE). The licenses of third party dependencies of Kitex are explained [here](https://github.com/cloudwego/kitex/blob/develop/licenses).
-
-## Community
-- Email: [conduct@cloudwego.io](conduct@cloudwego.io)
-- How to become a member: [COMMUNITY MEMBERSHIP](https://github.com/cloudwego/community/blob/main/COMMUNITY_MEMBERSHIP.md)
-- Issues: [Issues](https://github.com/cloudwego/kitex/issues)
-- Lark: Scan the QR code below with [Lark](https://www.larksuite.com/zh_cn/download) to join our CloudWeGo/kitex user group.
-
-  ![LarkGroup](images/lark_group.png)
-
-## Landscapes
-
-<p align="center">
-<img src="https://landscape.cncf.io/images/left-logo.svg" width="150"/>&nbsp;&nbsp;<img src="https://landscape.cncf.io/images/right-logo.svg" width="200"/>
-<br/><br/>
-CloudWeGo enriches the <a href="https://landscape.cncf.io/">CNCF CLOUD NATIVE Landscape</a>.
-</p>
+```

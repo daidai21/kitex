@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+// 事件
+
 package event
 
 import "time"

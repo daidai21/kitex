@@ -18,6 +18,8 @@ package server
 
 import "sync"
 
+// 钩子函数相关的
+
 // RegisterStartHook add hook which is executed after the server starts.
 func RegisterStartHook(h func()) {
 	muStartHooks.Lock()

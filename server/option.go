@@ -36,6 +36,7 @@ import (
 	"github.com/cloudwego/kitex/pkg/utils"
 )
 
+// 服务配置选项
 // Option is the only way to config server.
 type Option = internal_server.Option
 

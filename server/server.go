@@ -45,6 +45,7 @@ import (
 	"github.com/cloudwego/kitex/pkg/stats"
 )
 
+//抽象的rpc服务，接受连接和注册服务
 // Server is a abstraction of a RPC server. It accepts connections and dispatches them to the service
 // registered to it.
 type Server interface {
@@ -53,8 +54,11 @@ type Server interface {
 	Stop() error
 }
 
+// Server接口的实现
 type server struct {
-	opt     *internal_server.Options
+	// 初始化服务的配置选项信息
+	opt *internal_server.Options
+	// 服务端信息
 	svcInfo *serviceinfo.ServiceInfo
 
 	// actual rpc service implement of biz
@@ -67,6 +71,7 @@ type server struct {
 	sync.Mutex
 }
 
+// 创建服务使用指定的配置选项
 // NewServer creates a server with the given Options.
 func NewServer(ops ...Option) Server {
 	s := &server{
@@ -92,6 +97,7 @@ func (s *server) init() {
 	s.buildInvokeChain()
 }
 
+// 填充上下文
 func fillContext(opt *internal_server.Options) context.Context {
 	ctx := context.Background()
 	ctx = context.WithValue(ctx, endpoint.CtxEventBusKey, opt.Bus)
@@ -159,6 +165,7 @@ func (s *server) RegisterService(svcInfo *serviceinfo.ServiceInfo, handler inter
 	return nil
 }
 
+// 启动服务
 // Run runs the server.
 func (s *server) Run() (err error) {
 	if s.svcInfo == nil {
@@ -176,13 +183,13 @@ func (s *server) Run() (err error) {
 		}
 	}
 
-	s.richRemoteOption()
+	s.richRemoteOption() //丰富远程配置项
 	transHdlr, err := s.newSvrTransHandler()
 	if err != nil {
 		return err
 	}
 	s.Lock()
-	s.svr, err = remotesvr.NewServer(s.opt.RemoteOpt, s.eps, transHdlr)
+	s.svr, err = remotesvr.NewServer(s.opt.RemoteOpt, s.eps, transHdlr) // 创建远程服务
 	s.Unlock()
 	if err != nil {
 		return err
@@ -190,6 +197,7 @@ func (s *server) Run() (err error) {
 
 	errCh := s.svr.Start()
 	muStartHooks.Lock()
+	// 执行启动前的钩子函数
 	for i := range onServerStart {
 		go onServerStart[i]()
 	}
@@ -208,6 +216,7 @@ func (s *server) Run() (err error) {
 	return
 }
 
+// 优雅的停止服务
 // Stop stops the server gracefully.
 func (s *server) Stop() (err error) {
 	s.stopped.Do(func() {
@@ -273,7 +282,9 @@ func (s *server) richRemoteOption() {
 	s.addBoundHandlers(s.opt.RemoteOpt)
 }
 
+// 增加限制处理器
 func (s *server) addBoundHandlers(opt *remote.ServerOption) {
+	// 传输转换相关的
 	// for server trans info handler
 	if len(s.opt.MetaHandlers) > 0 {
 		transInfoHdlr := bound.NewTransMetaHandler(s.opt.MetaHandlers)
@@ -286,6 +297,7 @@ func (s *server) addBoundHandlers(opt *remote.ServerOption) {
 		}
 	}
 
+	//限流相关的
 	// for server limiter, the handler should be added as first one
 	connLimit, qpsLimit, ok := s.buildLimiterWithOpt()
 	if ok {
@@ -294,6 +306,7 @@ func (s *server) addBoundHandlers(opt *remote.ServerOption) {
 	}
 }
 
+//通过配置选项构建限流器
 func (s *server) buildLimiterWithOpt() (connLimit limiter.ConcurrencyLimiter, qpsLimit limiter.RateLimiter, ok bool) {
 	if s.opt.Limits != nil {
 		if s.opt.Limits.MaxConnections > 0 {
@@ -317,6 +330,7 @@ func (s *server) buildLimiterWithOpt() (connLimit limiter.ConcurrencyLimiter, qp
 	return
 }
 
+//检查服务信息和处理器信息
 func (s *server) check() error {
 	if s.svcInfo == nil {
 		return errors.New("run: no service. Use RegisterService to set one")
@@ -370,6 +384,7 @@ func (s *server) newSvrTransHandler() (handler remote.ServerTransHandler, err er
 	}
 	transPl := remote.NewTransPipeline(transHdlr)
 
+	//填充输入和输出的管道
 	for _, ib := range s.opt.RemoteOpt.Inbounds {
 		transPl.AddInboundHandler(ib)
 	}
@@ -397,9 +412,11 @@ func (s *server) buildRegistryInfo(lAddr net.Addr) {
 	}
 }
 
+//服务等待退出
 func (s *server) waitExit(errCh chan error) error {
 	exitSignal := s.opt.ExitSignal()
 
+	//延迟注册
 	// service may not be available as soon as startup.
 	delayRegister := time.After(1 * time.Second)
 	for {

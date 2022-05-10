@@ -59,6 +59,7 @@ type Client interface {
 	Call(ctx context.Context, method string, request, response interface{}) error
 }
 
+// Client接口的实现
 type kClient struct {
 	svcInfo *serviceinfo.ServiceInfo
 	mws     []endpoint.Middleware

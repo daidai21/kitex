@@ -44,6 +44,8 @@ import (
 	"github.com/cloudwego/kitex/transport"
 )
 
+//客户端配置选项
+
 // Option is the only way to config client.
 type Option = client.Option
 

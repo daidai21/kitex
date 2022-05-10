@@ -31,6 +31,8 @@ import (
 	"github.com/cloudwego/kitex/pkg/rpcinfo"
 )
 
+// 重试
+
 // RPCCallFunc is the definition with wrap rpc call
 type RPCCallFunc func(context.Context, Retryer) (rpcinfo.RPCInfo, error)
 

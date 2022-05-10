@@ -25,6 +25,8 @@ import (
 	"github.com/cloudwego/kitex/pkg/utils"
 )
 
+//短连接池
+
 var _ remote.ConnPool = &ShortPool{}
 
 type shortConn struct {

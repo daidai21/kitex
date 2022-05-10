@@ -47,6 +47,7 @@ type DuplexBoundHandler interface {
 	InboundHandler
 }
 
+// 调用流程管道
 // TransPipeline contains TransHandlers.
 type TransPipeline struct {
 	netHdlr TransHandler

@@ -16,6 +16,8 @@
 
 package remote
 
+// Rpc角色枚举
+
 // RPCRole is to distinguished client or server
 type RPCRole int
 

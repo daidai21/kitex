@@ -44,23 +44,28 @@ type ServiceInfo struct {
 	// The name of the service. For generic services, it is always the constant `GenericService`.
 	ServiceName string
 
+	//TODO:UNKNOWN
 	// HandlerType is the type value of a request handler from the generated code.
 	HandlerType interface{}
 
+	//服务端的方法信息
 	// Methods contains the meta information of methods supported by the service.
 	// For generic service, there is only one method named by the constant `GenericMethod`.
 	Methods map[string]MethodInfo
 
+	//IDL的类型
 	// PayloadCodec is the codec of payload.
 	PayloadCodec PayloadCodec
 
 	// KiteXGenVersion is the version of command line tool 'kitex'.
 	KiteXGenVersion string
 
+	//扩展字段
 	// Extra is for future feature info, to avoid compatibility issue
 	// as otherwise we need to add a new field in the struct
 	Extra map[string]interface{}
 
+	// 支持泛化调用的时候使用
 	// GenericMethod returns a MethodInfo for the given name.
 	// It is used by generic calls only.
 	GenericMethod func(name string) MethodInfo
@@ -88,12 +93,13 @@ func (i *ServiceInfo) MethodInfo(name string) MethodInfo {
 	return i.Methods[name]
 }
 
+// 方法的元信息
 // MethodInfo to record meta info of unary method
 type MethodInfo interface {
-	Handler() MethodHandler
-	NewArgs() interface{}
-	NewResult() interface{}
-	OneWay() bool
+	Handler() MethodHandler // 处理者
+	NewArgs() interface{}   // 参数
+	NewResult() interface{} //返回
+	OneWay() bool           //TODO:UNKNOWN
 }
 
 // MethodHandler is corresponding to the handler wrapper func that in generated code

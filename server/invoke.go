@@ -16,6 +16,8 @@
 
 package server
 
+//invoke调用
+
 // Invoker is for calling handler function wrapped by Kitex suites without connection.
 
 import (

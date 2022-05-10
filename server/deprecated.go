@@ -21,6 +21,8 @@ import (
 	"github.com/cloudwego/kitex/pkg/utils"
 )
 
+// 将要被丢弃的
+
 // Deprecated: Useless option now, server support multi protocols by default.
 // IMPORTANT: this option will be deleted in the future!!!
 func WithMultiProtocol() Option {
