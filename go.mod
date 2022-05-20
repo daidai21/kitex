@@ -1,4 +1,4 @@
-module github.com/daidai21/kitex
+module github.com/cloudwego/kitex
 
 go 1.13
 
