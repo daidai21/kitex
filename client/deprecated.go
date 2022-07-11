@@ -16,6 +16,8 @@
 
 package client
 
+// 将要被遗弃的功能
+
 import (
 	"github.com/cloudwego/kitex/internal/client"
 	"github.com/cloudwego/kitex/pkg/rpcinfo"

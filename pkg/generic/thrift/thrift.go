@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+// 为泛化调用提供thrift idl解析器和编解码器
 // Package thrift provides thrift idl parser and codec for generic call
 package thrift
 

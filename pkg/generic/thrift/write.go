@@ -36,7 +36,11 @@ type writerOption struct {
 
 type writer func(ctx context.Context, val interface{}, out thrift.TProtocol, t *descriptor.TypeDescriptor, opt *writerOption) error
 
+<<<<<<< HEAD
 // 判断sample的类型
+=======
+// 获取sampled的类型
+>>>>>>> main
 func typeOf(sample interface{}, t *descriptor.TypeDescriptor, opt *writerOption) (descriptor.Type, writer, error) {
 	tt := t.Type
 	switch sample.(type) {

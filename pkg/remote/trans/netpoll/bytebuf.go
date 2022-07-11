@@ -78,6 +78,7 @@ func newNetpollByteBuffer() interface{} {
 	return &netpollByteBuffer{}
 }
 
+// TODO:UNKNOWN
 type netpollByteBuffer struct {
 	writer   netpoll.Writer
 	reader   netpoll.Reader

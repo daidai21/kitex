@@ -30,6 +30,8 @@ import (
 	"github.com/cloudwego/kitex/pkg/warmup"
 )
 
+//长连接池
+
 var (
 	_ net.Conn            = &longConn{}
 	_ remote.LongConnPool = &LongPool{}

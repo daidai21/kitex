@@ -22,6 +22,8 @@ import (
 	"time"
 )
 
+// 连接池的接口定义
+
 // ConnOption contains configurations for connection pool.
 type ConnOption struct {
 	Dialer         Dialer

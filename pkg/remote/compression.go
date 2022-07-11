@@ -16,6 +16,8 @@
 
 package remote
 
+// 压缩类型
+
 // CompressType tells compression type for a message.
 type CompressType int32
 

@@ -34,7 +34,7 @@ type HTTPRequest struct {
 	Host    string
 	Path    string
 	Params  *Params // path params
-	RawBody []byte
+	RawBody []byte  // 二进制后的http的参数body信息
 	Body    map[string]interface{}
 }
 

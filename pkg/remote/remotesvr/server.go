@@ -52,6 +52,7 @@ func NewServer(opt *remote.ServerOption, inkHdlFunc endpoint.Endpoint, transHdlr
 	return s, nil
 }
 
+//启动服务
 // Start starts the server and return chan, the chan receive means server shutdown or err happen
 func (s *server) Start() chan error {
 	errCh := make(chan error, 1)

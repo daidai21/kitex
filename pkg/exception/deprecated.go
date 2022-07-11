@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+// 后续废弃
 // Package exception is deprecated
 package exception
 

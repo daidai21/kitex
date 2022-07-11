@@ -27,7 +27,9 @@ import (
 
 // Generic ...
 type Generic interface {
-	Closer
+	Closer // 回收资源
+
+	// 编解码器
 	// PayloadCodec return codec implement
 	PayloadCodec() remote.PayloadCodec
 	// PayloadCodecType return the type of codec
