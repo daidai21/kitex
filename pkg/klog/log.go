@@ -75,6 +75,7 @@ type FullLogger interface {
 // log level (smaller by integer comparison) will not be output.
 type Level int
 
+// 日志等级
 // The levels of logs.
 const (
 	LevelTrace Level = iota

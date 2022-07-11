@@ -24,6 +24,7 @@ import (
 	"os"
 )
 
+// log实例初始化
 var logger FullLogger = &defaultLogger{
 	level:  LevelInfo,
 	stdlog: log.New(os.Stderr, "", log.LstdFlags|log.Lshortfile|log.Lmicroseconds),
@@ -171,17 +172,18 @@ func (ll *defaultLogger) SetLevel(lv Level) {
 	ll.level = lv
 }
 
+// 最终都调用的这个打印的日志
 func (ll *defaultLogger) logf(lv Level, format *string, v ...interface{}) {
 	if ll.level > lv {
 		return
 	}
-	msg := lv.toString()
+	msg := lv.toString() // 序列化
 	if format != nil {
 		msg += fmt.Sprintf(*format, v...)
 	} else {
 		msg += fmt.Sprint(v...)
 	}
-	ll.stdlog.Output(4, msg)
+	ll.stdlog.Output(4, msg) // 调用深度是4
 	if lv == LevelFatal {
 		os.Exit(1)
 	}

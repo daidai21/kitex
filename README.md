@@ -18,6 +18,10 @@
 
         * `remote`  .
             * TODO:核心
+    * `klog` [link](./pkg/klog)
+    ```text
+    字节RPC框架Kitex的日志库klog竟然也这么小巧！    https://juejin.cn/post/7104825435795980324
+    ```
 * `server`  服务端二方包
     * `genericserver`  泛化服务
         * TODO
